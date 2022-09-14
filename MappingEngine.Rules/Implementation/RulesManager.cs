@@ -33,7 +33,7 @@ public class RulesManager : IRulesManager
             {
                 results.Add(new RuleExecutionResult
                 {
-                    Target = mapping.MappingField,
+                    //Target = mapping.MappingField,
                     TargetValue = await mapping.GetOutputAsync(this, getFieldValueCallback)
                 });
             }
@@ -45,7 +45,7 @@ public class RulesManager : IRulesManager
             {
                 results.Add(new RuleExecutionResult
                 {
-                    Target = mapping.MappingField,
+                    //Target = mapping.MappingField,
                     TargetValue = await mapping.GetOutputAsync(this, getFieldValueCallback)
                 });
             }

@@ -3,17 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MappingEngineApi", "MappingEngineApi\MappingEngineApi.csproj", "{1AAEDF61-0B8A-4B19-B4F4-B3A305A55E8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MappingEngineApi", "MappingEngineApi\MappingEngineApi.csproj", "{1AAEDF61-0B8A-4B19-B4F4-B3A305A55E8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rules", "Rules", "{0DF76FA5-0A4F-4181-860B-75A06A29F27B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MappingEngine.Rules", "MappingEngine.Rules\MappingEngine.Rules.csproj", "{43CBD416-0600-4168-A97D-4C50C449875B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MappingEngine.Rules", "MappingEngine.Rules\MappingEngine.Rules.csproj", "{43CBD416-0600-4168-A97D-4C50C449875B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5D948644-79F3-4E20-8852-5AD93D1402B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rules", "Rules", "{90F94B2E-F164-4281-ADB6-3B17EF0B6817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Rules", "Tests.Rules\Tests.Rules.csproj", "{641776C3-D024-4BCC-AF11-F6A395A45DD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Rules", "Tests.Rules\Tests.Rules.csproj", "{641776C3-D024-4BCC-AF11-F6A395A45DD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MappingEngine.Console", "MappingEngine.Console\MappingEngine.Console.csproj", "{5F2A1FB7-2B30-4B87-BB46-D87B3430F448}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MappingEngine.Services", "MappingEngine.Services\MappingEngine.Services.csproj", "{F23C6ECF-F32D-43E9-A2F9-9001CEA90DB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{641776C3-D024-4BCC-AF11-F6A395A45DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{641776C3-D024-4BCC-AF11-F6A395A45DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{641776C3-D024-4BCC-AF11-F6A395A45DD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F2A1FB7-2B30-4B87-BB46-D87B3430F448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F2A1FB7-2B30-4B87-BB46-D87B3430F448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F2A1FB7-2B30-4B87-BB46-D87B3430F448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F2A1FB7-2B30-4B87-BB46-D87B3430F448}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F23C6ECF-F32D-43E9-A2F9-9001CEA90DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23C6ECF-F32D-43E9-A2F9-9001CEA90DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23C6ECF-F32D-43E9-A2F9-9001CEA90DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23C6ECF-F32D-43E9-A2F9-9001CEA90DB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
