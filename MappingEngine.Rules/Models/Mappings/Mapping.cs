@@ -12,9 +12,11 @@ public abstract class Mapping : ITypeName
     public string MappingField { get; set; }
 
     [JsonIgnore]
-    public bool IsConfigured => MappingField != null && IsDerivedConfigured;
+    public bool IsConfigured => IsDerivedConfigured;
 
     protected abstract bool IsDerivedConfigured { get; }
+
+    public virtual Type DataType { get; set; } = null;
 
     public abstract Task<object> GetOutputAsync(
         IRuleExecutor ruleExecutor,

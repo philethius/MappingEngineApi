@@ -6,16 +6,6 @@ namespace Tests.Rules.Tests.Models.Mappings;
 public class ConstantModelMappingTests
 {
     [TestMethod]
-    public void ItIsNotConfiguredByDefault()
-    {
-        // Arrange/Act
-        var constantMapping = new ConstantValueMapping();
-
-        // Assert
-        Assert.IsFalse(constantMapping.IsConfigured);
-    }
-
-    [TestMethod]
     public void ItIsConfigured()
     {
         // Arrange/Act
@@ -42,7 +32,7 @@ public class ConstantModelMappingTests
     }
 
     [TestMethod]
-    public async Task ItReturnsValue()
+    public async Task ItReturnsExpectedValue()
     {
         // Arrange
         var expectedValue = 23;

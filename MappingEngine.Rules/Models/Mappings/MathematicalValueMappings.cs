@@ -1,4 +1,5 @@
-﻿using MappingEngine.Rules.Interface;
+﻿using MappingEngine.Rules.Enums;
+using MappingEngine.Rules.Interface;
 using System.Linq.Expressions;
 using System.Text.Json;
 
@@ -21,33 +22,33 @@ public abstract class MathematicalValueMapping : Mapping
 
         var leftObj = await LeftMapping.GetOutputAsync(ruleExecutor, getFieldValueCallback);
         var rightObj = await RightMapping.GetOutputAsync(ruleExecutor, getFieldValueCallback);
-        var isLeftLong = long.TryParse(leftObj.ToString(), out long leftLong);
-        var isRightLong = long.TryParse(rightObj.ToString(), out long rightLong);
-        var isDecimal = !isLeftLong || !isRightLong;
+        var isDecimal = LeftMapping.DataType == typeof(decimal) 
+                || RightMapping.DataType == typeof(decimal);
+        var isInt = LeftMapping.DataType == typeof(int)
+            && RightMapping.DataType == typeof(int);
 
         Expression expression;
         if (isDecimal)
         {
-            var leftDec = leftObj is decimal ? (decimal)leftObj : decimal.Parse((string)leftObj);
-            var rightDec = rightObj is decimal ? (decimal)rightObj : decimal.Parse((string)rightObj);
-            expression = GetExpressionFrom(leftDec, rightDec);
+            expression = GetExpressionFrom<decimal>(leftObj, rightObj);
+            DataType = typeof(decimal);
+            return Expression.Lambda<Func<decimal>>(expression).Compile()();
+        }
+        else if (isInt)
+        {
+            expression = GetExpressionFrom<int>(leftObj, rightObj);
+            DataType = typeof(int);
+            return Expression.Lambda<Func<int>>(expression).Compile()();
         }
         else
         {
-            expression = GetExpressionFrom(leftLong, rightLong);
+            expression = GetExpressionFrom<long>(leftObj, rightObj);
+            DataType = typeof(long);
+            return Expression.Lambda<Func<long>>(expression).Compile()();
         }
-
-        if (isDecimal) { return Expression.Lambda<Func<decimal>>(expression).Compile()(); }
-
-        // try to parse as the small size first
-        var output = Expression.Lambda<Func<long>>(expression).Compile()();
-        if (int.TryParse(output.ToString(), out int intOutput)) { return intOutput; }
-
-        // return type = long
-        return output;
     }
 
-    protected abstract Expression GetExpressionFrom<T>(T left, T right);
+    protected abstract Expression GetExpressionFrom<T>(object left, object right);
 }
 
 public class AdditionMathematicalValueMapping : MathematicalValueMapping
@@ -61,9 +62,9 @@ public class AdditionMathematicalValueMapping : MathematicalValueMapping
         return JsonSerializer.Serialize(this, options);
     }
 
-    protected override Expression GetExpressionFrom<T>(T left, T right)
+    protected override Expression GetExpressionFrom<T>(object left, object right)
     {
-        return Expression.Add(Expression.Constant(left), Expression.Constant(right));
+        return Expression.Add(Expression.Constant((T)left), Expression.Constant((T)right));
     }
 }
 
@@ -78,9 +79,9 @@ public class SubtractionMathematicalValueMapping : MathematicalValueMapping
         return JsonSerializer.Serialize(this, options);
     }
 
-    protected override Expression GetExpressionFrom<T>(T left, T right)
+    protected override Expression GetExpressionFrom<T>(object left, object right)
     {
-        return Expression.Subtract(Expression.Constant(left), Expression.Constant(right));
+        return Expression.Subtract(Expression.Constant((T)left), Expression.Constant((T)right));
     }
 }
 
@@ -95,9 +96,9 @@ public class MultiplicationMathematicalValueMapping : MathematicalValueMapping
         return JsonSerializer.Serialize(this, options);
     }
 
-    protected override Expression GetExpressionFrom<T>(T left, T right)
+    protected override Expression GetExpressionFrom<T>(object left, object right)
     {
-        return Expression.Multiply(Expression.Constant(left), Expression.Constant(right));
+        return Expression.Multiply(Expression.Constant((T)left), Expression.Constant((T)right));
     }
 }
 
@@ -105,16 +106,27 @@ public class DivisionMathematicalValueMapping : MathematicalValueMapping
 {
     public override string Type => "From quotient of";
 
-    protected override bool IsDerivedConfigured => LeftMapping != null && RightMapping != null;
+    //public DivisionMode DivisionMode { get; set; } = DivisionMode.WithoutDecimal;
+
+    protected override bool IsDerivedConfigured => 
+        LeftMapping != null && RightMapping != null;
 
     public override string ToJson(JsonSerializerOptions options)
     {
         return JsonSerializer.Serialize(this, options);
     }
 
-    protected override Expression GetExpressionFrom<T>(T left, T right)
+    protected override Expression GetExpressionFrom<T>(object left, object right)
     {
-        return Expression.Divide(Expression.Constant(left), Expression.Constant(right));
+        //if (DivisionMode == DivisionMode.WithDecimal)
+        //{
+        //    return Expression.Divide(
+        //        Expression.Constant(Convert.ToDecimal(left)), 
+        //        Expression.Constant(Convert.ToDecimal(right))
+        //    );
+        //}
+
+        return Expression.Divide(Expression.Constant((T)left), Expression.Constant((T)right));
     }
 }
 
@@ -129,8 +141,8 @@ public class ModulusMathematicalValueMapping : MathematicalValueMapping
         return JsonSerializer.Serialize(this, options);
     }
 
-    protected override Expression GetExpressionFrom<T>(T left, T right)
+    protected override Expression GetExpressionFrom<T>(object left, object right)
     {
-        return Expression.Modulo(Expression.Constant(left), Expression.Constant(right));
+        return Expression.Modulo(Expression.Constant((T)left), Expression.Constant((T)right)); ;
     }
 }

@@ -11,18 +11,15 @@ public class AdditionMathematicalValueMappingTests
         // Arrange
         var leftValue = new ConstantValueMapping
         {
-            MappingField = "Left",
             Value = 2
         };
 
         var rightValue = new ConstantValueMapping
         {
-            MappingField = "Right",
             Value = 3
         };
         var mapping = new AdditionMathematicalValueMapping
         {
-            MappingField = "Target",
             LeftMapping = leftValue,
             RightMapping = rightValue
         };

@@ -7,12 +7,23 @@ namespace MappingEngine.Rules.Models.Mappings;
 
 public class ConstantValueMapping : Mapping
 {
+    private object _value;
+
     public override string Type => "Constant value";
 
-    public virtual object Value { get; set; } = null;
+    public virtual object Value
+    {
+        get => _value;
+        set { _value = value; DataType = value?.GetType() ?? null; }
+    }
 
     [JsonIgnore]
     protected override bool IsDerivedConfigured => true;  // Note: null is a legit value
+
+    public ConstantValueMapping()
+    {
+        Value = null;
+    }
 
     public override async Task<object> GetOutputAsync(
         IRuleExecutor ruleExecutor,

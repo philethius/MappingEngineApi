@@ -6,6 +6,8 @@ namespace MappingEngine.Rules.Models.Mappings;
 
 public class DatabaseFieldValueMapping : Mapping
 {
+    private object _value;
+
     public override string Type => "From database field";
 
     public string SourceField { get; set; }
@@ -24,9 +26,9 @@ public class DatabaseFieldValueMapping : Mapping
             throw new Exception($"Cannot retrieve database field '{SourceField}', {nameof(DatabaseFieldValueMapping)} is not properly configured.");
         }
 
-        return await getFieldValueCallback(SourceField);
-
-        //return await Callback(Field);
+        var value = await getFieldValueCallback(SourceField);
+        DataType = value.GetType();
+        return value;
     }
 
     public override string ToJson(JsonSerializerOptions options)
