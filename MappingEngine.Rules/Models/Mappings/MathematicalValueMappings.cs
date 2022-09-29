@@ -36,12 +36,22 @@ public abstract class MathematicalValueMapping : Mapping
         }
         else if (isInt)
         {
-            expression = GetExpressionFrom<int>(leftObj, rightObj);
+            expression = GetExpressionFrom<long>(leftObj, rightObj);
+            var output = Expression.Lambda<Func<long>>(expression).Compile()();
+
+            // up-converting to long (no int overflow)
+            if (output > int.MaxValue) 
+            {
+                DataType = typeof(long);
+                return output;
+            }
+
             DataType = typeof(int);
-            return Expression.Lambda<Func<int>>(expression).Compile()();
+            return Convert.ToInt32(output);
         }
         else
         {
+            // long by definition
             expression = GetExpressionFrom<long>(leftObj, rightObj);
             DataType = typeof(long);
             return Expression.Lambda<Func<long>>(expression).Compile()();
